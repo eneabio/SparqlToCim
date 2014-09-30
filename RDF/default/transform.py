@@ -70,14 +70,23 @@ class Transform:
             
             
         if count > 1:
-            print type
+            #print type
             matchType = re.search("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", type)
             if matchType:
-                print "Delete line with type"
+                #print "Delete line with type"
                 re.sub("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", "", type, count=0, flags=0)
-             
+        
+        typeCimOriginal = typeCim 
         typeCim = typeCim[:-4]
-        typeCim = typeCim[4:]
+        #typeCim = typeCim[4:]
+        if(typeCim[3]==" "):
+            typeCim = typeCim[4:]   
+        elif(typeCim[2]==" "):
+            typeCim = typeCim[3:]   
+        if (typeCim == "ubstation"):
+            print type
+            print typeCimOriginal
+            print typeCim
         typeCim = "cim:"+typeCim
         self.lastTypeCim = typeCim
             
