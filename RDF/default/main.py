@@ -1,8 +1,8 @@
 from fileReader import FileReader
 from transform import Transform
 
-fileNameInput = "C:\data\others\lambrate_psr.xml"
-fileNameOutput = "C:\data\others\lambrate_psr_cim.xml"
+fileNameInput = "C:\data\others\lambrate.xml"
+fileNameOutput = "C:\data\others\lambrate_cim.xml"
 tr = Transform()
 read = "r"
 write = "w"
