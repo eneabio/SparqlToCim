@@ -28,6 +28,8 @@ class Transform:
         matchResource = re.search("rdf:resource=\"file:///"+self.file, line)
         matchDescription = re.search("/rdf:Description", line)
         matchType = re.search("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", line)
+        matchDeleteTopo = re.search("<cim:Terminal.TopologicalNode", line) #delete Topological node
+        matchDeleteIsland = re.search("<cim:TopologicalNode.TopologicalIsland", line) #delete Topological island
         if matchType:
             #print "Delete line with type"
             #re.sub("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", "", type, count=0, flags=0)
@@ -43,7 +45,13 @@ class Transform:
         if matchDescription:
             output = self.transformDescription(line, filein)
             #print "Description"
+        if matchDeleteTopo:
+            output = self.transformDeleteTopo(line, filein)
         return output
+        
+        if matchDeleteIsland:
+            output = self.transformDeleteIsland(line, filein)
+        return output   
         
     def transformAbout(self, line, filein):
         newLine = re.sub("rdf:about=\"file:///"+self.file+"#", "rdf:ID=\"", line, count=0, flags=0)
@@ -112,4 +120,17 @@ class Transform:
             return newLine
         else:
             return line
-    
+        
+    def transformDeleteTopo(self,line,filein):
+        newLine =""
+        if(re.search("<cim:Terminal.TopologicalNode", line)):
+            return newLine
+        else:
+            return line
+        
+    def transformDeleteIsland(self,line,filein):
+        newLine =""
+        if(re.search("<cim:Terminal.TopologicalIsland", line)):
+            return newLine
+        else:
+            return line
