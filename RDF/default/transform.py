@@ -31,14 +31,15 @@ class Transform:
         matchDeleteTopo = re.search("<cim:Terminal.TopologicalNode", line) #delete Topological node
         matchDeleteIsland = re.search("<cim:TopologicalNode.TopologicalIsland", line) #delete Topological island
         if matchType:
-            #print "Delete line with type"
+            print "Delete line with type"
             #re.sub("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", "", type, count=0, flags=0)
             output= ""
             return output
         output = line
         if matchAbout:
-            output = self.transformAbout(line, filein)
             #print "About"
+            output = self.transformAbout(line, filein)
+            
         if matchResource:
             output = self.transformResource(line, filein)
             #print "Resource"
@@ -55,15 +56,17 @@ class Transform:
         
     def transformAbout(self, line, filein):
         newLine = re.sub("rdf:about=\"file:///"+self.file+"#", "rdf:ID=\"", line, count=0, flags=0)
+        print newLine
         key = filein.currentPos()
         type = filein.next()
+        #print type
         #verify if it is the line with type
         matchType = re.search("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", type)
         typeCim = ""
         count = 1
         while typeCim == "":
             if matchType:
-                #print "Matched"
+                print "Matched"
                 typeCim = re.sub("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", "", type, count=0, flags=0)
                 if count > 1:
                     #return at the correct line
@@ -73,6 +76,7 @@ class Transform:
             else:
                 count = count + 1
                 type = filein.next()
+                #print type
                 #to do: verify that it is not "</rdf:Description...
                 matchType = re.search("<rdf:type rdf:resource=\"http://iec.ch/TC57/2010/CIM-schema-cim15#", type)
             
